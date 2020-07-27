@@ -1,0 +1,117 @@
+<app-titulo [titulo]="titulo"></app-titulo>
+<div class="d-flex">
+  <div class="form-inline mr-auto">
+    <div class="form-group mb-2">
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-outline-primary"  (click)="openModal(template)">
+      <i class="fa fa-plus-circle"></i>&nbsp;
+      Novo
+    </button>
+  </div>
+</div>
+<br/>
+<table class="table table-striped">
+  <thead class="thead-light">
+    <tr>
+      <th>#</th>
+      <th>Descição</th>
+      <th>Data Cadastro</th>
+      <th>Opções</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="recursos && recursos.length">
+    <tr *ngFor="let recurso of recursos">
+      <td></td>
+      <td>{{recurso.descricao}}</td>
+      <td>{{recurso.dataCadastro | DateTimeFormatPipe}}</td>
+      <td>
+        <a [routerLink]="['/itemrecurso/getitem',  recurso.recursoId]" tooltip="Item Recurso" class="btn btn-sm btn-warning">
+          <i class="fa fa-cog" aria-hidden="true"></i>
+        </a>
+        <a [routerLink]="['/ItemRecurso/GetItem/', recurso.recursoId]"> <i class="fa fa-cog" aria-hidden="true"></i></a>
+
+        <button (click)="gotoProductDetails(recurso.recursoId)">Go To Details</button>
+      </td>
+    </tr>
+  </tbody>
+  <tfoot *ngIf="!recursos">
+    <tr>
+      <td colspan="7" class="text-center">
+        <h4>
+          Nenhum resultado encontrado!
+        </h4>
+      </td>
+    </tr>
+  </tfoot>
+</table>
+
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{ titulo }}</h4>
+    <button type="button" class="close pull-right"
+    aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+
+
+  <form [formGroup]="registerForm" >
+
+
+    <div class="form-group">
+      <label for="">Recurso</label>
+      <input class="form-control"   type="text" type="text" formControlName="descricao" [ngClass]="{ 'is-invalid': registerForm.get('descricao').errors &&
+      registerForm.get('descricao').touched}" placeholder="Insira o Recurso">
+      <div *ngIf="registerForm.get('descricao').hasError('required')
+      && registerForm.get('descricao').touched" class="invalid-feedback">
+      Recurso é obrigatório.
+    </div>
+  </div>
+
+  <div formArrayName="itensRecurso" *ngFor="let itemRecurso of itensRecurso.controls; let j=index">
+    <fieldset [formGroupName]="j" class="form-group">
+      <legend class="d-flex justify-content-between capitalize">
+        {{ itensRecurso.get(j+'.descricao').value === '' ?
+        'Item Recurso' :
+        itensRecurso.get(j+'.descricao').value?.replace('fab fa-', '')
+      }}
+    </legend>
+    <div class="row">
+      <div class="col-9">
+        <label>Descrição</label>
+        <input type="text" class="form-control"
+        [ngClass]="{'is-invalid': itensRecurso.get(j+'.descricao').errors && itensRecurso.get(j+'.descricao').touched}"
+        formControlName="descricao">
+        <div *ngIf="registerForm.get('descricao').hasError('required')
+        && registerForm.get('descricao').touched" class="invalid-feedback">
+        Item Recurso é obrigatório.
+      </div>
+    </div>
+    <div class="col-2">
+      <button style="margin-top: 2.5em;" class="btn btn-sm btn-warning mb-2" (click)="removerItemRecurso(j)">Remove</button>
+    </div>
+  </div>
+
+
+</fieldset>
+</div>
+<button class="btn btn-outline-primary"  (click)="adicionarItemRecruso()">
+  <i class="fa fa-plus-circle"></i>&nbsp;
+  Item Recurso
+</button>
+</form>
+<div class="modal-footer d-flex">
+  <button class="btn btn-secondary" (click)="modalRef.hide()">
+    Fechar
+  </button>
+  <button class="btn btn-primary ml-auto"  (click)="salvar()">
+    Salvar
+  </button>
+</div>
+</div>
+</ng-template>

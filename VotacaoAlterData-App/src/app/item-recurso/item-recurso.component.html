@@ -1,0 +1,43 @@
+<app-titulo [titulo]="titulo"></app-titulo>
+<div class="d-flex">
+  <div class="form-inline mr-auto">
+    <div class="form-group mb-2">
+    </div>
+  </div>
+  <div>
+    <!-- <button class="btn btn-outline-primary"  (click)="openModal(template)">
+      <i class="fa fa-plus-circle"></i>&nbsp;
+      Novo
+    </button> -->
+  </div>
+</div>
+<br/>
+<table class="table table-striped">
+  <thead class="thead-light">
+    <tr>
+      <th>#</th>
+      <th>Descição</th>
+      <th>Data Cadastro</th>
+      <th>Votos</th>
+    </tr>
+  </thead>
+  <tbody *ngIf="itensRecursos && itensRecursos.length">
+    <tr *ngFor="let item of itensRecursos">
+      <td></td>
+      <td>{{item.descricao}}</td>
+      <td>{{item.dataCadastro | DateTimeFormatPipe}}</td>
+      <td>
+
+      </td>
+    </tr>
+  </tbody>
+  <tfoot *ngIf="!itensRecursos">
+    <tr>
+      <td colspan="7" class="text-center">
+        <h4>
+          Nenhum resultado encontrado!
+        </h4>
+      </td>
+    </tr>
+  </tfoot>
+</table>

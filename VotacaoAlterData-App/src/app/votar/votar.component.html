@@ -1,32 +1,63 @@
 <app-titulo [titulo]="titulo"></app-titulo>
 <br/>
-<table class="table table-striped">
-  <thead class="thead-light">
+<table class="table table-borderless">
+  <thead>
     <tr>
-      <th>#</th>
-      <th>Nome</th>
-      <th>E-mail</th>
+      <th ></th>
+
+      <th style="text-align:center">Tarefa</th>
+      <th>Votos</th>
     </tr>
   </thead>
-  <tbody *ngIf="itensRecurso && itensRecurso.length">
-    <tr *ngFor="let item of itensRecurso">
+  <tbody  *ngIf="itensRecursos && itensRecursos.length">
+    <tr *ngFor="let item of itensRecursos" >
       <td></td>
-      <td>{{item.descricao}}</td>
-      <td>{{item.itemRecursoId}}</td>
+      <td >
+        <button [disabled]="!item.votado" class="d-flex justify-content-around shadow rounded p-2 mb-3 btn btn-info btn-lg btn-block" [ngClass]="{'btn-danger':item.votado, 'btn-success':!item.active}"  (click)="openModal(template, item)">
+          {{ item.descricao }}
+        </button>
+      </td>
       <td>
-        <a [routerLink]="['/itemrecurso', item.id, 'edit']" tooltip="Item Recurso" class="btn btn-sm btn-warning">
-          <i class="fa fa-cog" aria-hidden="true"></i>
-        </a>
+        {{ item.votos.length }}
+      </td>
+      <td colspan="1">
+
       </td>
     </tr>
   </tbody>
-  <tfoot *ngIf="!itensRecurso">
-    <tr>
-      <td colspan="3" class="text-center">
-        <h4>
-          Nenhum resultado encontrado!
-        </h4>
-      </td>
-    </tr>
-  </tfoot>
+
 </table>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Confirmar Voto!</h4>
+    <button type="button" class="close pull-right"
+    aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="text-center">
+  <h4 class="text-info">{{ tituloModal }}</h4>
+</div>
+<div class="modal-body">
+  <form [formGroup]="registerForm" >
+    <div class="form-group col-md-8">
+      <label>Comentário:</label>
+      <textarea class="form-control" [ngClass]="{'is-invalid': registerForm.get('comentario').errors
+      && registerForm.get('comentario').touched}" formControlName="comentario" placeholder="Minímo 4 caracter e Máximo 100!"></textarea>
+      <div *ngIf="registerForm.get('comentario').hasError('required')
+      && registerForm.get('comentario').touched" class="invalid-feedback">
+      Comentário é obrigatório.
+    </div>
+  </div>
+</form>
+<div class="modal-footer d-flex">
+  <button class="btn btn-secondary" (click)="modalRef.hide()">
+    Fechar
+  </button>
+  <button class="btn btn-primary ml-auto" (click)="salvar()" >
+    Salvar
+  </button>
+</div>
+</div>
+</ng-template>

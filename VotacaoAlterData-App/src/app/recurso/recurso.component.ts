@@ -3,7 +3,7 @@ import { Recurso } from '../_models/Recurso';
 import { ItemRecurso } from '../_models/ItemRecurso';
 import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { Router } from '@angular/router';
+import { ActivatedRoute  } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { RecursoService } from '../_services/recurso.service';
 
@@ -26,7 +26,7 @@ export class RecursoComponent implements OnInit {
     return <FormArray>this.registerForm.get('itensRecurso');
   }
 
-  constructor( public router: Router
+  constructor( public router: ActivatedRoute
     , public fb: FormBuilder
     , private toastr: ToastrService
     , private modalService: BsModalService
@@ -89,7 +89,7 @@ export class RecursoComponent implements OnInit {
         this.recursoService.adicionar(this.recurso).subscribe(
           () => {
             this.modalRef.hide();
-
+            this.get();
             this.toastr.success('Sucesso!');
           }, error => {
             this.toastr.error(`Erro:  ${error}`);
@@ -97,7 +97,4 @@ export class RecursoComponent implements OnInit {
           );
         }
 
-        public gotoProductDetails(id) {
-          this.router.navigate(['/itemrecurso/GetItem/', { id: id }]);
-        }
       }

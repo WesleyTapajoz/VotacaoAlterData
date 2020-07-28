@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemRecurso } from '../_models/ItemRecurso';
 import { ItemRecursoService } from '../_services/item-recurso.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
@@ -13,19 +13,26 @@ import { ToastrService } from 'ngx-toastr';
 export class ItemRecursoComponent implements OnInit {
 
   constructor(public itemRecursoService: ItemRecursoService
-    , public router: Router
+    , public router: ActivatedRoute
     , public fb: FormBuilder
-    , public toastr: ToastrService ) { }
+    , public toastr: ToastrService ) {
+      this.recursoId = this.router.snapshot.params.id;
+    }
     titulo = 'Tarefas';
     itemRecurso: ItemRecurso = new ItemRecurso();
     itensRecursos: ItemRecurso[];
+
+    recursoId: string;
+
     ngOnInit() {
+      this.get(this.recursoId);
     }
 
-    get() {
-      this.itemRecursoService.get().subscribe(
+    get(id: any) {
+      this.itemRecursoService.getById(id).subscribe(
         (_itemRecurso: ItemRecurso[]) => {
           this.itensRecursos = _itemRecurso;
+          console.log(this.itensRecursos);
         }, error => {
           this.toastr.error(`Erro ao tentar Carregar: ${error}`);
         });

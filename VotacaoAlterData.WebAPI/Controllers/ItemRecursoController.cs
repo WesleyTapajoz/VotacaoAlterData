@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -21,20 +22,51 @@ namespace VotacaoAlterData.WebAPI.Controllers
 
         private readonly IMapper _mapper;
         private readonly IRepository _repo;
-        public ItemRecursoController(IMapper mapper, IRepository repo)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public ItemRecursoController(IMapper mapper, IRepository repo, IHttpContextAccessor httpContextAccessor)
         {
             _repo = repo;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
 
-        [HttpGet("GetItem/{id}")]
-        [AllowAnonymous]
-        public async Task<IActionResult> Get(int id)
+        // GET: api/<ItemRecursoController>
+        [HttpGet("{recursoId}")]
+        public async Task<IActionResult> Get(int recursoId)
         {
             try
             {
-                var recursos = await _repo.GetAllAsync<Recurso>();
-                var results = _mapper.Map<RecursoDto[]>(recursos);
+                var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var recurso = await _repo.GetById<Recurso>(recursoId);
+
+                if (recurso.RecursosUsers.Any(s => s.Id == int.Parse(userId)))
+                {
+                    var result = _mapper.Map<ItemRecursoDto[]>(recurso.ItensRecurso);
+                    return Ok(result);
+                }
+
+                var results = _mapper.Map<ItemRecursoVotoDto[]>(recurso.ItensRecurso);
+                return Ok(results);
+            }
+            catch (System.Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError, $"Banco Dados Falhou {ex.Message}");
+            }
+        }
+
+        // GET: api/<ItemRecursoController>
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> Get()
+        {
+            try
+            {
+                var recursos = await _repo.GetAllAsync<ItemRecurso>();
+                var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                var results = _mapper.Map<ItemRecurso[]>(recursos);
                 return Ok(results);
             }
             catch (System.Exception ex)
@@ -44,29 +76,5 @@ namespace VotacaoAlterData.WebAPI.Controllers
         }
 
 
-        // GET: api/<ItemRecursoController>
-        [HttpGet]
-        public IEnumerable<string> Get()
-        {
-            return new string[] { "value1", "value2" };
-        }
-
-        // POST api/<ItemRecursoController>
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
-
-        // PUT api/<ItemRecursoController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<ItemRecursoController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
     }
 }

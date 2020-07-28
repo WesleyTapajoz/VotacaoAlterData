@@ -44,6 +44,7 @@ namespace VotacaoAlterData.WebAPI.Controllers
         }
 
         [HttpGet("GetAllUser")]
+        [AllowAnonymous]
         public async Task<IActionResult> Get()
         {
             try
@@ -192,7 +193,6 @@ namespace VotacaoAlterData.WebAPI.Controllers
                 return $"Banco Dados Falhou {ex.Message}";
             }
 
-            //return tokenHandler.WriteToken(token);
         }
     }
 }

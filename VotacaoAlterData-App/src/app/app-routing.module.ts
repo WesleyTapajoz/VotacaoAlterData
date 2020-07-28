@@ -21,8 +21,11 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
   { path: 'usuarios', component: UsuarioComponent, canActivate: [AuthGuard] },
   { path: 'votar', component: VotarComponent, canActivate: [AuthGuard] },
+  { path: 'votar/:id', component: VotarComponent, canActivate: [AuthGuard] },
   { path: 'itemrecurso', component: ItemRecursoComponent},
+  { path: 'itemrecurso/:id', component: ItemRecursoComponent},
   { path: 'recurso', component: RecursoComponent, canActivate: [AuthGuard] },
+  { path: 'recurso/:id', component: RecursoComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
 ];

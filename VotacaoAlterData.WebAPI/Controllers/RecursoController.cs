@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -18,12 +20,15 @@ namespace VotacaoAlterData.WebAPI.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IRepository _repo;
-        public RecursoController(IMapper mapper, IRepository repo)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+
+        public RecursoController(IMapper mapper, IRepository repo, IHttpContextAccessor httpContextAccessor)
         {
             _repo = repo;
             _mapper = mapper;
+            _httpContextAccessor = httpContextAccessor;
         }
-       
+
         // GET: api/<RecursoController>
         [HttpGet("GetAll")]
         public async Task<IActionResult> GetAll()
@@ -60,17 +65,63 @@ namespace VotacaoAlterData.WebAPI.Controllers
 
         // POST api/<RecursoController>
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]RecursoDto model)
+        public async Task<IActionResult> Post([FromBody] RecursoDto model)
         {
             try
             {
                 var recurso = _mapper.Map<Recurso>(model);
-              
+                recurso.Ativo = true;
                 _repo.Add(recurso);
 
                 if (await _repo.SaveChangesAsync())
                 {
                     return Created($"/api/recurso/{model.RecursoId}", _mapper.Map<RecursoDto>(recurso));
+
+                }
+            }
+            catch (System.Exception ex)
+            {
+                return this.StatusCode(StatusCodes.Status500InternalServerError,
+                    $"Banco Dados Falhou {ex.Message}");
+            }
+
+            return BadRequest();
+        }
+
+        [HttpPut("AdicionarVoto")]
+        [AllowAnonymous]
+        public async Task<IActionResult> AdicionarVoto([FromBody] VotarDto model)
+        {
+            var userId = _httpContextAccessor.HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            try
+            {
+                var recurso = _repo.GetById<Recurso>(model.RecursoId).Result;
+
+                var recursosUsers = recurso.RecursosUsers.Where(s => s.Id == int.Parse(userId));
+
+                if (recursosUsers.Any())
+                {
+                    return BadRequest();
+                }
+
+                var user = new RecursoUser()
+                {
+                    RecursoId = model.RecursoId,
+                    Id = int.Parse(userId)
+                };
+
+                var voto = new Voto()
+                {
+                    Comentario = model.Comentario,
+                    ItemRecursoId = model.ItemRecursoId
+                };
+
+                _repo.Add(user);
+                _repo.Add(voto);
+
+                if (await _repo.SaveChangesAsync())
+                {
+                    return Ok();
 
                 }
             }

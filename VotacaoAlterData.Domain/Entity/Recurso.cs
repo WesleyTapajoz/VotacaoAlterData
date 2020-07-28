@@ -10,8 +10,8 @@ namespace VotacaoAlterData.Domain.Entity
         public int RecursoId { get; set; }
         public string Descricao { get; set; }
         public DateTime DataCadastro { get; set; }
-        public List<ItemRecurso> ItensRecurso { get; set; }
-        public List<RecursoUser> RecursosUsers { get; set; }
-
+        public virtual List<ItemRecurso> ItensRecurso { get; set; }
+        public virtual List<RecursoUser> RecursosUsers { get; set; }
+        public bool Ativo { get; set; }
     }
 }

@@ -1,3 +1,5 @@
+import { RecursoUser } from "./RecursoUser";
+
 export class User{
   id: number;
   email: string;
@@ -6,4 +8,5 @@ export class User{
   cpf: string;
   telefone: string;
   ativo: boolean;
+  recursosUsers: RecursoUser[];
 }

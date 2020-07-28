@@ -29,7 +29,7 @@ namespace VotacaoAlterData.WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(
-               x => x.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
+               x => x.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies());
 
             IdentityBuilder builder = services.AddIdentityCore<User>(options =>
             {
@@ -125,11 +125,6 @@ namespace VotacaoAlterData.WebAPI
                     pattern: "{controller=Home}/{action=Index}/{id?}");
             });
             app.UseStaticFiles();
-            //app.UseStaticFiles(new StaticFileOptions()
-            //{
-            //    FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), @"Resources")),
-            //    RequestPath = new PathString("/Resources")
-            //});
         }
     }
 }

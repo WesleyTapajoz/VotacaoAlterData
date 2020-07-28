@@ -81,20 +81,4 @@ export class UsuarioComponent implements OnInit {
           );
         }
       }
-
-
-      // cadastrarUsuario() {
-      //   if (this.registerForm.valid) {
-      //     this.user = Object.assign({}, this.registerForm.value);
-      //     console.log('this.user',this.user);
-
-      //     this.usuarioService.adicionarUsuario(this.user).subscribe(
-      //       () => {
-      //         this.router.navigate(['/dashboard']);
-      //         this.toastr.success('Cadastro Realizado');
-      //       }, error => {
-      //         this.toastr.error('Erro!');
-      //       });
-      //     }
-      //   }
       }

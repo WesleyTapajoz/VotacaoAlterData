@@ -10,14 +10,14 @@ import { Observable } from 'rxjs';
 export class ItemRecursoService {
 
   constructor(private http: HttpClient) { }
-  baseURL = environment.apiUrl + 'api/recurso/';
+  baseURL = environment.apiUrl + 'api/ItemRecurso/';
 
   get(): Observable<ItemRecurso[]> {
     return this.http.get<ItemRecurso[]>(`${this.baseURL}`);
   }
 
   getById(id: number): Observable<ItemRecurso[]> {
-    return this.http.get<ItemRecurso[]>(`${this.baseURL}/${id}`);
+    return this.http.get<ItemRecurso[]>(`${this.baseURL}${id}`);
   }
 
 }

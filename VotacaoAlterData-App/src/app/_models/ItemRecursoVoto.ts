@@ -1,8 +1,7 @@
+import { Recurso } from "./Recurso";
 import { Voto } from "./Voto";
-import { Recurso } from './Recurso';
-import { ItemRecursoVoto } from "./ItemRecursoVoto";
 
-export class ItemRecurso
+export class ItemRecursoVoto
 {
   itemRecursoId: number;
   dataCadastro: Date;
@@ -12,5 +11,4 @@ export class ItemRecurso
   recurso: Recurso;
   votado: boolean;
   votos: Voto[];
-
 }

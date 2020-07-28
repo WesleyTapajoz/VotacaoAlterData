@@ -17,6 +17,7 @@ namespace VotacaoAlterData.Repository.Data
         public DbSet<Recurso> Recursos { get; set; }
         public DbSet<ItemRecurso> ItemRecursos { get; set; }
         public DbSet<Voto> Votos { get; set; }
+        public DbSet<RecursoUser> RecursoUsers { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -49,21 +50,29 @@ namespace VotacaoAlterData.Repository.Data
                     .WithMany(r => r.ItensRecurso)
                     .HasForeignKey(ur => ur.RecursoId)
                     .IsRequired();
+
+                x.HasOne(ur => ur.Recurso)
+                   .WithMany(r => r.ItensRecurso)
+                   .HasForeignKey(ur => ur.RecursoId)
+                   .IsRequired();
+
             });
 
-            modelBuilder.Entity<Voto>(x =>
+            modelBuilder.Entity<RecursoUser>(x =>
             {
-                x.HasKey(em => new { em.VotoId });
+                x.HasKey(PE => new { PE.RecursoId, PE.Id });
 
-                x.HasOne(ur => ur.ItemRecurso)
-                    .WithMany(r => r.Votos)
-                    .HasForeignKey(ur => ur.ItemRecursoId)
+                x.HasOne(ur => ur.Recurso)
+                    .WithMany(r => r.RecursosUsers)
+                    .HasForeignKey(ur => ur.RecursoId)
                     .IsRequired();
+
+                x.HasOne(ur => ur.User)
+                   .WithMany(r => r.RecursosUsers)
+                   .HasForeignKey(ur => ur.Id)
+                   .IsRequired();
+
             });
-
-
-            modelBuilder.Entity<RecursoUser>()
-              .HasKey(x => new { x.RecursoId, x.Id });
 
             modelBuilder.Seed();
 
@@ -74,16 +83,16 @@ namespace VotacaoAlterData.Repository.Data
         {
             foreach (var entry in ChangeTracker.Entries().Where(entry => entry.Entity.GetType().GetProperty("DataCadastro") != null))
             {
-                
-                    if (entry.State == EntityState.Added)
-                    {
-                        entry.Property("DataCadastro").CurrentValue = DateTime.Now;
-                    }
 
-                    if (entry.State == EntityState.Modified)
-                    {
-                        entry.Property("DataCadastro").IsModified = false;
-                    }
+                if (entry.State == EntityState.Added)
+                {
+                    entry.Property("DataCadastro").CurrentValue = DateTime.Now;
+                }
+
+                if (entry.State == EntityState.Modified)
+                {
+                    entry.Property("DataCadastro").IsModified = false;
+                }
             }
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }

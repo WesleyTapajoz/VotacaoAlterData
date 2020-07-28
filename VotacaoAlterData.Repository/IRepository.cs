@@ -11,11 +11,6 @@ namespace VotacaoAlterData.Repository
         void Delete<T>(T entity) where T : class;
         void DeleteRange<T>(T[] entity) where T : class;
 
-        //Retorna todos os emprestimos pelo id do livro
-        //Task<Emprestimo[]> GetAllEmprestimoByLivroIdAsync(int livroId);
-
-
-
         Task<bool> SaveChangesAsync();
     }
 }

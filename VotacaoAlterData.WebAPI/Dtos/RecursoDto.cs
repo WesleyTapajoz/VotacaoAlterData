@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VotacaoAlterData.Domain.Entity;
 
 namespace VotacaoAlterData.WebAPI.Dtos
 {
@@ -10,7 +11,9 @@ namespace VotacaoAlterData.WebAPI.Dtos
         public int RecursoId { get; set; }
         public string Descricao { get; set; }
         public DateTime DataCadastro { get; set; }
-        public List<ItemRecursoDto> ItensRecurso { get; set; }
-        public List<UserDto> Users { get; set; }
+        public virtual List<ItemRecursoDto> ItensRecurso { get; set; }
+        public virtual List<RecursoUserDto> RecursosUsers { get; set; }
+        public bool Ativo { get; set; }
+
     }
 }

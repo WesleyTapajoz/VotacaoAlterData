@@ -13,7 +13,7 @@ namespace VotacaoAlterData.Repository
         public Repository(DataContext context)
         {
             _context = context;
-            _context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            //_context.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
         }
 
         public void Add<T>(T entity) where T : class
@@ -47,10 +47,6 @@ namespace VotacaoAlterData.Repository
             return await _context.Set<T>().FindAsync(id);
         }
 
-        //public async Task<Emprestimo[]> GetAllEmprestimoByLivroIdAsync(int livroId)
-        //{
-        //    return await _context.Emprestimos.Where(x => x.LivroId == livroId && x.DataEntrega == null).ToArrayAsync();
-        //}
-
+     
     }
 }

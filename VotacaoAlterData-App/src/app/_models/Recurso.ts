@@ -1,5 +1,5 @@
 import { ItemRecurso } from "./ItemRecurso";
-import { User } from "./User";
+import { RecursoUser } from "./RecursoUser";
 
 
 export class Recurso
@@ -7,6 +7,7 @@ export class Recurso
   recursoId: string;
   dataCadastro: Date;
   itensRecurso: ItemRecurso[];
-  users: User[];
+  recursosUsers: RecursoUser[];
   descricao: string;
+  ativo: boolean;
 }

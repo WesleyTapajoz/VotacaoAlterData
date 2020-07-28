@@ -27,12 +27,7 @@
       <td>{{recurso.descricao}}</td>
       <td>{{recurso.dataCadastro | DateTimeFormatPipe}}</td>
       <td>
-        <a [routerLink]="['/itemrecurso/getitem',  recurso.recursoId]" tooltip="Item Recurso" class="btn btn-sm btn-warning">
-          <i class="fa fa-cog" aria-hidden="true"></i>
-        </a>
-        <a [routerLink]="['/ItemRecurso/GetItem/', recurso.recursoId]"> <i class="fa fa-cog" aria-hidden="true"></i></a>
-
-        <button (click)="gotoProductDetails(recurso.recursoId)">Go To Details</button>
+      <a   tooltip="Tarefas" [routerLink]="['/votar/', recurso.recursoId]"><i class="fa fa-file-text-o" aria-hidden="true"></i></a>
       </td>
     </tr>
   </tbody>
@@ -47,7 +42,6 @@
   </tfoot>
 </table>
 
-
 <ng-template #template>
   <div class="modal-header">
     <h4 class="modal-title pull-left">{{ titulo }}</h4>
@@ -57,12 +51,7 @@
   </button>
 </div>
 <div class="modal-body">
-
-
-
   <form [formGroup]="registerForm" >
-
-
     <div class="form-group">
       <label for="">Recurso</label>
       <input class="form-control"   type="text" type="text" formControlName="descricao" [ngClass]="{ 'is-invalid': registerForm.get('descricao').errors &&
@@ -75,12 +64,6 @@
 
   <div formArrayName="itensRecurso" *ngFor="let itemRecurso of itensRecurso.controls; let j=index">
     <fieldset [formGroupName]="j" class="form-group">
-      <legend class="d-flex justify-content-between capitalize">
-        {{ itensRecurso.get(j+'.descricao').value === '' ?
-        'Item Recurso' :
-        itensRecurso.get(j+'.descricao').value?.replace('fab fa-', '')
-      }}
-    </legend>
     <div class="row">
       <div class="col-9">
         <label>Descrição</label>
@@ -96,8 +79,6 @@
       <button style="margin-top: 2.5em;" class="btn btn-sm btn-warning mb-2" (click)="removerItemRecurso(j)">Remove</button>
     </div>
   </div>
-
-
 </fieldset>
 </div>
 <button class="btn btn-outline-primary"  (click)="adicionarItemRecruso()">

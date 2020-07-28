@@ -1,5 +1,8 @@
 using AutoMapper;
+using Microsoft.EntityFrameworkCore.Internal;
 using System;
+using System.Linq;
+using System.Security.Cryptography;
 using VotacaoAlterData.Domain;
 using VotacaoAlterData.Domain.Entity;
 using VotacaoAlterData.WebAPI.Dtos;
@@ -22,26 +25,37 @@ namespace VotacaoAlterData.WebAPI.Profiles
             CreateMap<User, UserLoginDto>()
                 .ReverseMap();
 
-            CreateMap<Recurso, RecursoDto>().ReverseMap();
+            CreateMap<Recurso, RecursoDto>()
+                .ReverseMap();
 
-            //CreateMap<RecursoDto, Recurso> ()
-            //    .ForMember(dest => dest.DataCadastro, opt =>
-            //    {
-            //        opt.MapFrom(src => DateTime.Now);
-            //    });
+            CreateMap<RecursoUser, RecursoUserDto>()
+             .ReverseMap();
 
-            CreateMap<ItemRecurso, ItemRecursoDto>().ReverseMap();
+            CreateMap<ItemRecursoDto, ItemRecurso>();
 
+            CreateMap<ItemRecurso, ItemRecursoDto>()
+                .AfterMap((src, dest) =>
+                {
+                    if (dest.Votado)
+                    {
+                        dest.Active = !dest.Votado;
+                    }
 
-            //CreateMap<ItemRecursoDto, ItemRecurso>()
-            // .ForMember(dest => dest.DataCadastro, opt =>
-            // {
-            //     opt.MapFrom(src => DateTime.Now);
-            // });
+                });
+
+            CreateMap<ItemRecurso, ItemRecursoVotoDto>()
+                .ForMember(dest => dest.Active, opt =>
+                {
+                    opt.MapFrom(src => true);
+                })
+                .ForMember(dest => dest.Votado, opt =>
+                {
+                    opt.MapFrom(src => true);
+                });
 
 
             CreateMap<Voto, VotoDto>()
-           .ReverseMap();
+                   .ReverseMap();
 
         }
     }

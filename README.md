@@ -1,7 +1,3 @@
----
-
-
----
 
 <h1 id="bem-ao-sistema-de-votação-alterdata">Bem ao Sistema de Votação AlterData!</h1>
 <p>Devido ao grande volume de pedidos de recursos que a Alterdata recebe<br>

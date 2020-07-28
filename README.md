@@ -32,4 +32,8 @@ Npgsql.EntityFrameworkCore.PostgreSQL ^3</p>
 <p>Postgres ^10</p>
 <h1 id="linguagem">Linguagem</h1>
 <p>C#</p>
+<h1 id="rquitetura">Arquitetura</h1>
+<p>DDD</p>
+<h1 id="padrao">Padrão</h1>
+<p>Repository</p>
 

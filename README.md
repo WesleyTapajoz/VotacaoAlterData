@@ -4,7 +4,12 @@
 ---
 
 <h1 id="bem-ao-sistema-de-votação-alterdata">Bem ao Sistema de Votação AlterData!</h1>
-<p>Oi! Eu sou seu primeiro arquivo Markdown no ** StackEdit ** . Se você quiser aprender sobre o StackEdit, pode me ler. Se você quiser brincar com o Markdown, pode me editar. Depois de terminar comigo, você pode criar novos arquivos abrindo o ** explorador de arquivos ** no canto esquerdo da barra de navegação.</p>
+<p>Devido ao grande volume de pedidos de recursos que a Alterdata recebe<br>
+todos os dias, a equipe de desenvolvimento não consegue desenvolver todos ao<br>
+mesmo tempo. A diretoria teve uma ideia de desenvolver um sistema de votação,<br>
+em que todas as filiais poderão votar nos recursos que são mais importantes para<br>
+os clientes. Os recursos mais votados serão priorizados pela equipe de<br>
+desenvolvimento.</p>
 <h1 id="requisitos-para-execução-do-projeto">Requisitos para execução do projeto</h1>
 <p>Para o visual studio code<br>
 1-Instalar .Net FrameWork Core disponivel em <a href="https://dotnet.microsoft.com/download">https://dotnet.microsoft.com/download</a><br>
@@ -20,7 +25,7 @@ dotnet ef --startup-project …/Livraria.WebAPI database update após concluido 
 7- Execute o comando dotnet watch run<br>
 8- Aponte o segundo para o projeto C:\Git\ewave-livraria-plenoII\Livraria-APP&gt; Execute o comando npm i<br>
 9- Após a execução, execute ng serve</p>
-<h1 id="framework-e-banco-de-dados">Framework</h1>
+<h1 id="framework-e-banco-de-dados">Framework E Banco de dados</h1>
 <p>Angular 10. * . *<br>
 EntityFrameworkCore ^3<br>
 bootstrap ^4<br>

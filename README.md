@@ -20,7 +20,7 @@ dotnet ef --startup-project …/Livraria.WebAPI database update após concluido 
 7- Execute o comando dotnet watch run<br>
 8- Aponte o segundo para o projeto C:\Git\ewave-livraria-plenoII\Livraria-APP&gt; Execute o comando npm i<br>
 9- Após a execução, execute ng serve</p>
-<h1 id="framework-e-banco-de-dados">Framework E Banco de dados</h1>
+<h1 id="framework-e-banco-de-dados">Framework</h1>
 <p>Angular 10. * . *<br>
 EntityFrameworkCore ^3<br>
 bootstrap ^4<br>
